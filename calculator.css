@@ -1,3 +1,31 @@
 body{
     background-color: black;
 }
+.main-container {
+	width: 500px;
+	height: 630px;
+	border: 5px solid snow;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	background: cadetblue;
+}
+
+.calc-screen {
+	width: 80%;
+	height: 16%;
+	border: 7px solid black;
+	background: chocolate;
+	text-align: end;
+	font-size: 100px;
+}
+.calc-buttons-container {
+	height: 71%;
+	background-color: gainsboro;
+	width: 93%;
+	margin-top: 3px;
+    display: grid;
+    grid-template-rows: repeat(5, 1fr);
+    grid-template-columns: repeat(5,1fr);
+}
