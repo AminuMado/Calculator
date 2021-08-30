@@ -6,31 +6,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculator</title>
     <link rel="stylesheet" href="calculator.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
+    rel="stylesheet">
+
     <script src="calculator.js" type="text/javascript" defer></script>
 </head>
 <body>
     <div class="main-container">
         <div class="calc-screen"></div>
         <div class="calc-buttons-container">
-            <div class="calc-button"> 1 </div>
-            <div class="calc-button"> 2 </div>
-            <div class="calc-button"> 3 </div>
-            <div class="calc-button"> 4 </div>
-            <div class="calc-button"> 5 </div>
-            <div class="calc-button"> 6 </div>
-            <div class="calc-button"> 7 </div>
-            <div class="calc-button"> 8 </div>
-            <div class="calc-button"> 9 </div>
-            <div class="calc-button"> 0 </div>
-            <div class="calc-button"> . </div>
-            <div class="calc-button"> + </div>
-            <div class="calc-button"> - </div>
-            <div class="calc-button"> x </div>
-            <div class="calc-button"> ÷ </div>
-            <div class="calc-button"> = </div>
-            <div class="calc-button"> Delete</div>
-            <div class="calc-button"> Clear </div>
+            <button class="calc-button number"> 1 </button>
+            <button class="calc-button number"> 2 </button>
+            <button class="calc-button number"> 3 </button>
+            <button class="calc-button number"> 4 </button>
+            <button class="calc-button number"> 5 </button>
+            <button class="calc-button number"> 6 </button>
+            <button class="calc-button number"> 7 </button>
+            <button class="calc-button number"> 8 </button>
+            <button class="calc-button number"> 9 </button>
+            <button class="calc-button number"> 0 </button>
+            <button class="calc-button number"> . </button>
+            <button class="calc-button operator"> + </button>
+            <button class="calc-button operator"> - </button>
+            <button class="calc-button operator"> x </button>
+            <button class="calc-button operator"> ÷ </button>
+            <button class="calc-button operator"> = </button>
+            <button class="calc-button operator"> <span class="material-icons-outlined icon">
+                backspace
+                </span></button>
+            <button class="calc-button operator"> <span class="material-icons-outlined icon">
+                refresh
+                </span> </button>
         </div>
     </div>
+    <footer class="footer">
+        <p>Copyright © 2021 AminuMado</p>
+        <a href="https://github.com/AminuMado" target="_blank">
+        <img class="github-logo" src="IMG/github-logo.svg"></a>
+    </footer>
 </body>
 </html>
