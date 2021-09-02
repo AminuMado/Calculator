@@ -50,6 +50,9 @@ body {
 .calc-button.operator{
 	background-color:limegreen;
 }
+.pressed{
+	color:yellow;
+}
 .calc-button.number:hover{
 	background-color: yellow;
 	
