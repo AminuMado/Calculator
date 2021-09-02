@@ -5,11 +5,18 @@ let userInput = "";
 let firstValue = "";
 let secondValue = "";
 let result = "";
+
 let operator = "";
 // functions
 let updateScreen = function(output){
     displayScreen.textContent = output;
 }
+function equality(){
+    secondValue = userInput;
+    userInput = "";
+    return result = parseInt(firstValue) + parseInt(secondValue);
+    
+};
 let resetScreen = function(){
     displayScreen.textContent = 0;
 }
@@ -20,6 +27,19 @@ let refresh = function(){
     secondValue = 0;
     result = 0;
     operator = 0;
+}
+let calculate = function(firstValue,secondValue,operator){
+    switch(operator){
+        case "add":
+            return result = (firstValue + secondValue);   
+        case "subtract":
+            return result = (firstValue - secondValue);
+        case "multiply":
+            return result = (firstValue * secondValue);
+        case "divide":
+            return result = (firstValue / secondValue);
+    }
+
 }
 buttonPad.addEventListener("click",function(event){
     let keyPressed = event.target;
@@ -33,10 +53,19 @@ buttonPad.addEventListener("click",function(event){
             break
         case "operator":
             switch(keyId){
-           /*      case "add":
+                 case "add":
                     firstValue = userInput;
-                    userInput = "";
+                    userInput = ""; 
+                    break
+                case "equality":
+                   let answer = equality();
+                   updateScreen(answer);
+                    console.log(result);
+                    console.log(firstValue);
+                    console.log(secondValue);
+                    break
                     //need to figure out how to make the operator glow or show that its active;
+                    /*
                 case "subtract":
                     firstValue = userInput;
                     userInput = "";
