@@ -1,39 +1,106 @@
 const displayScreen = document.querySelector(".calc-screen");
 const buttonPad = document.querySelector(".calc-buttons-container");
-const numberButtons = document.querySelectorAll(".number");
-let userInput = "";
-let firstValue = 0;
-let secondValue = 0;
-let result = 0;
-
+let firstValue = "";
+let secondValue = "";
+let result = "";
+let lastPressed = "";
 let operator = "";
+
+document.addEventListener("click", function(event){
+    let key = event.target;
+    if (key.classList.contains("number")){
+        if (key.closest("button")){
+            if(displayScreen.textContent.includes(".") && key.textContent == "."){
+                return;
+            }
+            else if(key.textContent == "."){
+                displayScreen.textContent = displayScreen.textContent + key.textContent;
+            }
+            else if(displayScreen.textContent == "0" || lastPressed == "operator"){
+                displayScreen.textContent = key.textContent;
+            } 
+            else {
+                displayScreen.textContent = displayScreen.textContent + key.textContent;
+            }
+            
+        }
+        lastPressed = "number";
+    }
+    if(key.classList.contains("operator")){
+        lastPressed = "operator";
+        if(key.id == "add" || key.id == "subtract" || key.id == "multiply" || key.id == "divide"){
+            firstValue = displayScreen.textContent;
+            operator = key.id;
+            console.log(document.querySelectorAll(".operator"));
+        }
+        
+        if (key.id == "equality"){
+            secondValue = displayScreen.textContent;
+            result = calculate(firstValue,secondValue,operator);
+            displayScreen.textContent = result;
+            console.log(firstValue)
+            console.log(secondValue)
+            console.log(operator)
+            console.log(result)
+        }
+        
+        
+    }
+})
+function calculate(firstValue,secondValue,operator){
+    if(firstValue == "" || secondValue== ""){
+        return;
+    }
+    else if(operator == "add"){
+       return result = parseInt(firstValue) + parseInt(secondValue);
+    }
+    else if(operator == "subtract"){
+       return result = parseInt(firstValue) - parseInt(secondValue);
+    }
+    else if(operator == "multiply"){
+       return result = parseInt(firstValue) * parseInt(secondValue);
+    }
+    else if(operator == "divide"){
+       return result = parseInt(firstValue) / parseInt(secondValue);
+    }
+
+    console.log(result)
+    
+}
+/* 
+let userInput = "";
+const numberButtons = document.querySelectorAll(".number");
 // functions
 let updateScreen = function(output){
     displayScreen.textContent = output;
 }
-function equality(operator){
-    if(operator == "+"){
+function calculate(operator){
+    secondValue = userInput;
+    if(firstValue == "" || secondValue== ""){
+        return;
+    }
+    else if(operator == "+"){
         secondValue = userInput;
         result = parseInt(firstValue) + parseInt(secondValue);
         firstValue = result;
         userInput = "";
 
     }
-    if(operator == "-"){
+    else if(operator == "-"){
         secondValue = userInput;
         result = parseInt(firstValue) - parseInt(secondValue);
         firstValue = result;
         userInput = "";
 
     }
-    if(operator == "x"){
+    else if(operator == "x"){
         secondValue = userInput;
         result = parseInt(firstValue) * parseInt(secondValue);
         firstValue = result;
         userInput = "";
 
     }
-    if(operator == "÷"){
+    else if(operator == "÷"){
         secondValue = userInput;
         result = parseInt(firstValue) / parseInt(secondValue);
         firstValue = result;
@@ -49,10 +116,10 @@ let resetScreen = function(){
 let refresh = function(){
     displayScreen.textContent = 0;
     userInput = "";
-    firstValue = 0;
-    secondValue = 0;
-    result = 0;
-    operator = 0;
+    firstValue = "";
+    secondValue = "";
+    result = "";
+    operator = "";
 }
 /* let calculate = function(firstValue,secondValue,operator){
     switch(operator){
@@ -67,14 +134,18 @@ let refresh = function(){
     }
 
 } */
-buttonPad.addEventListener("click",function(event){
+/* buttonPad.addEventListener("click",function(event){
     let keyPressed = event.target;
     let keyClass = keyPressed.classList[1];
     let keyId = keyPressed.id;
     console.log(keyPressed)
+    if(lastPressed == "add" || lastPressed == "subtract" || lastPressed == "multiply" || lastPressed == "divide"){
+        return;
+    }
     if (keyClass == "number"){
         userInput += (`${keyPressed.textContent}`);
         updateScreen(userInput);
+        lastPressed = "number";
         console.log(`firstValue = ${firstValue}`)
         console.log(`secondvalue= ${secondValue}`)
         console.log(`result = ${result}`)
@@ -83,18 +154,21 @@ buttonPad.addEventListener("click",function(event){
     };
     if (keyClass == "operator"){
         if(keyId == "add"){
-            firstValue = userInput;
+            
             operator = keyPressed.textContent;
             userInput = "";
+            lastPressed = "add";
             console.log(`firstValue = ${firstValue}`)
             console.log(`secondvalue= ${secondValue}`)
             console.log(`result = ${result}`)
 
         };
         if(keyId == "subtract"){
+
             firstValue = userInput;
             operator = keyPressed.textContent;
             userInput = "";
+            lastPressed = "subtract";
             console.log(`firstValue = ${firstValue}`)
             console.log(`secondvalue= ${secondValue}`)
             console.log(`result = ${result}`)
@@ -104,6 +178,7 @@ buttonPad.addEventListener("click",function(event){
             firstValue = userInput;
             operator = keyPressed.textContent;
             userInput = "";
+            lastPressed = "multiply";
             console.log(`firstValue = ${firstValue}`)
             console.log(`secondvalue= ${secondValue}`)
             console.log(`result = ${result}`)
@@ -113,14 +188,15 @@ buttonPad.addEventListener("click",function(event){
             firstValue = userInput;
             operator = keyPressed.textContent;
             userInput = "";
+            lastPressed = "divide";
             console.log(`firstValue = ${firstValue}`)
             console.log(`secondvalue= ${secondValue}`)
             console.log(`result = ${result}`)
 
         };
         if (keyId == "equality"){
-            secondValue = userInput;
-            updateScreen(equality(`${operator}`));
+            
+            updateScreen(calculate(`${operator}`));
             console.log(`firstValue = ${firstValue}`)
             console.log(`secondvalue= ${secondValue}`)
             console.log(`result = ${result}`)
@@ -131,7 +207,7 @@ buttonPad.addEventListener("click",function(event){
         }
     }
 })
-    /*
+ */    /*
     switch(keyClass){
         case "number":
            
@@ -173,4 +249,4 @@ buttonPad.addEventListener("click",function(event){
 //This checks if a number is pressed.&& displayScreen.textContent.length <= 9
         
 })
-}*/
+}*/ 
