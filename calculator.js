@@ -13,10 +13,13 @@ document.addEventListener("click", function(event){
             if(displayScreen.textContent.includes(".") && key.textContent == "."){
                 return;
             }
-            else if(key.textContent == "."){
+            else if(key.textContent == "." && displayScreen.textContent == "0"){
                 displayScreen.textContent = displayScreen.textContent + key.textContent;
             }
-            else if(displayScreen.textContent == "0" || lastPressed == "operator"){
+            else if(key.textContent == "." && lastPressed == "operator"){
+                displayScreen.textContent = "0"+ key.textContent;
+            }
+            else if(displayScreen.textContent == "0" || lastPressed == "operator" || lastPressed == "equality"){
                 displayScreen.textContent = key.textContent;
             } 
             else {
@@ -27,14 +30,21 @@ document.addEventListener("click", function(event){
         lastPressed = "number";
     }
     if(key.classList.contains("operator")){
-        lastPressed = "operator";
         if(key.id == "add" || key.id == "subtract" || key.id == "multiply" || key.id == "divide"){
             firstValue = displayScreen.textContent;
             operator = key.id;
-            console.log(document.querySelectorAll(".operator"));
+            /* console.log(document.querySelectorAll(".operator")); */
+             if(firstValue && operator && lastPressed == "operator"){
+                secondValue = displayScreen.textContent;
+                result = calculate(firstValue,secondValue,operator);
+                displayScreen.textContent = result;
+                console.log("inside")
+            };
+            lastPressed = "operator";
         }
         
-        if (key.id == "equality"){
+        else if (key.id == "equality"){
+            lastPressed = key.id;
             secondValue = displayScreen.textContent;
             result = calculate(firstValue,secondValue,operator);
             displayScreen.textContent = result;
@@ -43,25 +53,31 @@ document.addEventListener("click", function(event){
             console.log(operator)
             console.log(result)
         }
-        
+        else if (key.id == "refresh"){
+            lastPressed = key.id;
+        }
+        else if (key.id == "backspace"){
+            lastPressed = key.id;
+        }
         
     }
+    console.log(lastPressed)
 })
 function calculate(firstValue,secondValue,operator){
     if(firstValue == "" || secondValue== ""){
         return;
     }
     else if(operator == "add"){
-       return result = parseInt(firstValue) + parseInt(secondValue);
+       return result = parseFloat(firstValue) + parseFloat(secondValue);
     }
     else if(operator == "subtract"){
-       return result = parseInt(firstValue) - parseInt(secondValue);
+       return result = parseFloat(firstValue) - parseFloat(secondValue);
     }
     else if(operator == "multiply"){
-       return result = parseInt(firstValue) * parseInt(secondValue);
+       return result = parseFloat(firstValue) * parseFloat(secondValue);
     }
     else if(operator == "divide"){
-       return result = parseInt(firstValue) / parseInt(secondValue);
+       return result = parseFloat(firstValue) / parseFloat(secondValue);
     }
 
     console.log(result)
