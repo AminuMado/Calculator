@@ -29,17 +29,21 @@ document.addEventListener("click", function(event){
         }
         lastPressed = "number";
     }
-    if(key.classList.contains("operator")){
+    else if(key.classList.contains("operator")){
         if(key.id == "add" || key.id == "subtract" || key.id == "multiply" || key.id == "divide"){
+            if(firstValue !== ""){
+                result = calculate(firstValue,secondValue,operator);
+                displayScreen.textContent = result;
+            }
             firstValue = displayScreen.textContent;
             operator = key.id;
             /* console.log(document.querySelectorAll(".operator")); */
-             if(firstValue && operator && lastPressed == "operator"){
-                secondValue = displayScreen.textContent;
+            /*  if(firstValue  && operator && lastPressed !== "operator"){
                 result = calculate(firstValue,secondValue,operator);
                 displayScreen.textContent = result;
                 console.log("inside")
-            };
+                firstValue = result;
+            }; */
             lastPressed = "operator";
         }
         
@@ -55,16 +59,25 @@ document.addEventListener("click", function(event){
         }
         else if (key.id == "refresh"){
             lastPressed = key.id;
+             firstValue = "";
+             secondValue = "";
+             result = "";
+             lastPressed = "";
+             operator = "";
+             displayScreen.textContent = "0";
         }
         else if (key.id == "backspace"){
             lastPressed = key.id;
+            displayScreen.textContent.splice(0,-1);
+            firstValue = "";
         }
         
     }
     console.log(lastPressed)
 })
-function calculate(firstValue,secondValue,operator){
-    if(firstValue == "" || secondValue== ""){
+function calculate(){
+    secondValue = displayScreen.textContent;
+    if(firstValue == "" || secondValue == "" || operator == ""){
         return;
     }
     else if(operator == "add"){
