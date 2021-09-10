@@ -5,277 +5,103 @@ let secondValue = "";
 let result = "";
 let lastPressed = "";
 let operator = "";
+let userInput = "";
 
 document.addEventListener("click", function(event){
     let key = event.target;
+
     if (key.classList.contains("number")){
         if (key.closest("button")){
-            if(displayScreen.textContent.includes(".") && key.textContent == "."){
-                return;
-            }
-            else if(key.textContent == "." && displayScreen.textContent == "0"){
-                displayScreen.textContent = displayScreen.textContent + key.textContent;
-            }
-            else if(key.textContent == "." && lastPressed == "operator"){
-                displayScreen.textContent = "0"+ key.textContent;
-            }
-            else if(displayScreen.textContent == "0" || lastPressed == "operator" || lastPressed == "equality"){
-                displayScreen.textContent = key.textContent;
-            } 
-            else {
-                displayScreen.textContent = displayScreen.textContent + key.textContent;
-            }
-            
+            appendNumber(key.textContent)
+            updateDisplay()
         }
-        lastPressed = "number";
     }
     else if(key.classList.contains("operator")){
+        const selectOperator = document.querySelectorAll(".operator")
+        selectOperator.forEach(function(key){
+            key.classList.remove("pressed");
+        })
         if(key.id == "add" || key.id == "subtract" || key.id == "multiply" || key.id == "divide"){
-            if(firstValue !== ""){
-                result = calculate(firstValue,secondValue,operator);
-                displayScreen.textContent = result;
-            }
-            firstValue = displayScreen.textContent;
-            operator = key.id;
-            /* console.log(document.querySelectorAll(".operator")); */
-            /*  if(firstValue  && operator && lastPressed !== "operator"){
-                result = calculate(firstValue,secondValue,operator);
-                displayScreen.textContent = result;
-                console.log("inside")
-                firstValue = result;
-            }; */
-            lastPressed = "operator";
+            chooseOperator(key.id);
+            key.classList.add("pressed");
         }
-        
         else if (key.id == "equality"){
-            lastPressed = key.id;
-            secondValue = displayScreen.textContent;
-            result = calculate(firstValue,secondValue,operator);
-            displayScreen.textContent = result;
-            console.log(firstValue)
-            console.log(secondValue)
-            console.log(operator)
-            console.log(result)
+            calculate(operator);
+            updateDisplay();
         }
         else if (key.id == "refresh"){
-            lastPressed = key.id;
-             firstValue = "";
-             secondValue = "";
-             result = "";
-             lastPressed = "";
-             operator = "";
-             displayScreen.textContent = "0";
+            refresh();
+            updateDisplay();
         }
         else if (key.id == "backspace"){
-            lastPressed = key.id;
-            displayScreen.textContent.splice(0,-1);
-            firstValue = "";
+            backspace();
+            updateDisplay();
         }
+    }    
+    else return;
         
-    }
-    console.log(lastPressed)
-})
-function calculate(){
-    secondValue = displayScreen.textContent;
-    if(firstValue == "" || secondValue == "" || operator == ""){
-        return;
-    }
-    else if(operator == "add"){
-       return result = parseFloat(firstValue) + parseFloat(secondValue);
-    }
-    else if(operator == "subtract"){
-       return result = parseFloat(firstValue) - parseFloat(secondValue);
-    }
-    else if(operator == "multiply"){
-       return result = parseFloat(firstValue) * parseFloat(secondValue);
-    }
-    else if(operator == "divide"){
-       return result = parseFloat(firstValue) / parseFloat(secondValue);
-    }
 
-    console.log(result)
-    
-}
-/* 
-let userInput = "";
-const numberButtons = document.querySelectorAll(".number");
-// functions
-let updateScreen = function(output){
-    displayScreen.textContent = output;
-}
-function calculate(operator){
-    secondValue = userInput;
-    if(firstValue == "" || secondValue== ""){
-        return;
-    }
-    else if(operator == "+"){
-        secondValue = userInput;
-        result = parseInt(firstValue) + parseInt(secondValue);
-        firstValue = result;
-        userInput = "";
+});
 
-    }
-    else if(operator == "-"){
-        secondValue = userInput;
-        result = parseInt(firstValue) - parseInt(secondValue);
-        firstValue = result;
-        userInput = "";
-
-    }
-    else if(operator == "x"){
-        secondValue = userInput;
-        result = parseInt(firstValue) * parseInt(secondValue);
-        firstValue = result;
-        userInput = "";
-
-    }
-    else if(operator == "÷"){
-        secondValue = userInput;
-        result = parseInt(firstValue) / parseInt(secondValue);
-        firstValue = result;
-        userInput = "";
-
-    }
-
-    return result;
-};
-let resetScreen = function(){
-    displayScreen.textContent = 0;
-}
-let refresh = function(){
-    displayScreen.textContent = 0;
-    userInput = "";
+//Functions
+function refresh(){
     firstValue = "";
     secondValue = "";
     result = "";
+    lastPressed = "";
     operator = "";
+    userInput = "";
 }
-/* let calculate = function(firstValue,secondValue,operator){
+function appendNumber(number){
+    if(number === "." && userInput.includes(".")) return;
+    if(userInput == result){
+        userInput = "";    
+    }
+    userInput = userInput.toString() + number.toString()
+}
+function chooseOperator(operand){
+    if(userInput === "") return
+    if(firstValue != ""){
+        calculate(operator)
+        updateDisplay()
+    }
+    operator = operand;
+    firstValue = userInput; 
+    userInput = "";
+}
+function calculate(operator){
+    secondValue = userInput;
+    firstValue = parseFloat(firstValue);
+    secondValue = parseFloat(secondValue);
+
+    if(isNaN(firstValue) || isNaN(secondValue)) return;
     switch(operator){
         case "add":
-            return result = (firstValue + secondValue);   
+            result = (firstValue + secondValue);
+            break;
         case "subtract":
-            return result = (firstValue - secondValue);
+            result = firstValue - secondValue;
+            break;
         case "multiply":
-            return result = (firstValue * secondValue);
+            result = (firstValue * secondValue);
+            break;
         case "divide":
-            return result = (firstValue / secondValue);
+            result = (firstValue / secondValue);
+            break;
+        default: return;
     }
-
-} */
-/* buttonPad.addEventListener("click",function(event){
-    let keyPressed = event.target;
-    let keyClass = keyPressed.classList[1];
-    let keyId = keyPressed.id;
-    console.log(keyPressed)
-    if(lastPressed == "add" || lastPressed == "subtract" || lastPressed == "multiply" || lastPressed == "divide"){
-        return;
+   userInput = result;
+   operator = "";
+   firstValue = "";
+}
+function backspace(){
+    if(userInput == "0") return
+    userInput = userInput.toString().slice(0,-1);
+}
+function updateDisplay(){
+    userInput = userInput.toString();
+    if(userInput.length > 10){
+        userInput = userInput.substring(0,10);
     }
-    if (keyClass == "number"){
-        userInput += (`${keyPressed.textContent}`);
-        updateScreen(userInput);
-        lastPressed = "number";
-        console.log(`firstValue = ${firstValue}`)
-        console.log(`secondvalue= ${secondValue}`)
-        console.log(`result = ${result}`)
-
-
-    };
-    if (keyClass == "operator"){
-        if(keyId == "add"){
-            
-            operator = keyPressed.textContent;
-            userInput = "";
-            lastPressed = "add";
-            console.log(`firstValue = ${firstValue}`)
-            console.log(`secondvalue= ${secondValue}`)
-            console.log(`result = ${result}`)
-
-        };
-        if(keyId == "subtract"){
-
-            firstValue = userInput;
-            operator = keyPressed.textContent;
-            userInput = "";
-            lastPressed = "subtract";
-            console.log(`firstValue = ${firstValue}`)
-            console.log(`secondvalue= ${secondValue}`)
-            console.log(`result = ${result}`)
-
-        };
-        if(keyId == "multiply"){
-            firstValue = userInput;
-            operator = keyPressed.textContent;
-            userInput = "";
-            lastPressed = "multiply";
-            console.log(`firstValue = ${firstValue}`)
-            console.log(`secondvalue= ${secondValue}`)
-            console.log(`result = ${result}`)
-
-        };
-        if(keyId == "divide"){
-            firstValue = userInput;
-            operator = keyPressed.textContent;
-            userInput = "";
-            lastPressed = "divide";
-            console.log(`firstValue = ${firstValue}`)
-            console.log(`secondvalue= ${secondValue}`)
-            console.log(`result = ${result}`)
-
-        };
-        if (keyId == "equality"){
-            
-            updateScreen(calculate(`${operator}`));
-            console.log(`firstValue = ${firstValue}`)
-            console.log(`secondvalue= ${secondValue}`)
-            console.log(`result = ${result}`)
-
-        }
-        if (keyId == "refresh"){
-            refresh();
-        }
-    }
-})
- */    /*
-    switch(keyClass){
-        case "number":
-           
-            break
-        case "operator":
-            switch(keyId){
-                 case "add":
-                    firstValue = userInput;
-                    userInput = ""; 
-                    break
-                case "equality":
-                   let answer = equality();
-                   updateScreen(answer);
-                    console.log(result);
-                    console.log(firstValue);
-                    console.log(secondValue);
-                    break
-                    //need to figure out how to make the operator glow or show that its active;
-                    
-                case "subtract":
-                    firstValue = userInput;
-                    userInput = "";
-                    //need to figure out how to make the operator glow or show that its active;
-                case "multiply":
-                    firstValue = userInput;
-                    userInput = "";
-                    //need to figure out how to make the operator glow or show that its active;
-                case "divide":
-                    firstValue = userInput;
-                    userInput = "";
-                    //need to figure out how to make the operator glow or show that its active;
-                case "backspace": 
-                case "refresh":
-                    refresh();
-            }
-
-    }
-
-//This checks if a number is pressed.&& displayScreen.textContent.length <= 9
-        
-})
-}*/ 
+    displayScreen.textContent = userInput;
+}
