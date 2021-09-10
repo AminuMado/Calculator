@@ -60,12 +60,12 @@ function appendNumber(number){
     userInput = userInput.toString() + number.toString()
 }
 function chooseOperator(operand){
+    operator = operand;
     if(userInput === "") return
     if(firstValue != ""){
         calculate(operator)
         updateDisplay()
     }
-    operator = operand;
     firstValue = userInput; 
     userInput = "";
 }
