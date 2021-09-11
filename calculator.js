@@ -71,7 +71,6 @@ function chooseOperator(operand){
     operator = operand;
     firstValue = userInput; 
     userInput = "";
-    console.log(operator)
 }
 function calculate(operator){
     secondValue = userInput;
