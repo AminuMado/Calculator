@@ -102,7 +102,10 @@ function backspace(){
     userInput = userInput.toString().slice(0,-1);
 }
 function updateDisplay(){
-    if(userInput == "") return;
+    if(userInput == "") {
+        displayScreen.textContent = "0"
+        return;
+    }
     userInput = userInput.toString();
     if(userInput.length > 10){
         userInput = userInput.substring(0,10);
