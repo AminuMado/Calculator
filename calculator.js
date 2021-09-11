@@ -60,14 +60,18 @@ function appendNumber(number){
     userInput = userInput.toString() + number.toString()
 }
 function chooseOperator(operand){
-    operator = operand;
-    if(userInput === "") return
+    if(userInput === "") {
+        operator = operand;
+        return
+    }
     if(firstValue != ""){
         calculate(operator)
         updateDisplay()
     }
+    operator = operand;
     firstValue = userInput; 
     userInput = "";
+    console.log(operator)
 }
 function calculate(operator){
     secondValue = userInput;
