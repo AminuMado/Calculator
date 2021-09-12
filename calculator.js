@@ -26,14 +26,17 @@ document.addEventListener("click", function(event){
             key.classList.add("pressed");
         }
         else if (key.id == "equality"){
+            key.classList.remove("pressed");
             calculate(operator);
             updateDisplay();
         }
         else if (key.id == "refresh"){
+            key.classList.remove("pressed");
             refresh();
             updateDisplay();
         }
         else if (key.id == "backspace"){
+            key.classList.remove("pressed");
             backspace();
             updateDisplay();
         }
